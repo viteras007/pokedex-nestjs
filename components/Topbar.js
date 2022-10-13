@@ -46,7 +46,7 @@ function Topbar({ openAuthModal }) {
           <NextLink href="/" passHref>
             <Link>
               <Heading size="md" mr={4} display={['none', 'block']}>
-                Pokémon
+                Pokédex
               </Heading>
             </Link>
           </NextLink>

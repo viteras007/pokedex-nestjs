@@ -1,10 +1,11 @@
-import { Box, Flex, Input, Container, Image, Text  } from '@chakra-ui/react'
+import { Box, Flex, Input, Heading, Image, Text  } from '@chakra-ui/react'
 import Layout from '../components/Layout';
+import CardPokemon from '../components/CardPokemon';
 
 export default function Home() {
   const propertyCard = {
     name: 'Bulbasaur',
-    imageUrl: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/001.png',
+    imageUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png',
     imageAlt: 'Bulbasaur-img',
     number: '003'
   }
@@ -15,45 +16,10 @@ export default function Home() {
           <Input placeholder='Buscar...' size='lg' />
         </Box>
         <Flex mt="100px" gap={16}>
-          <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' w={200} h={300}>
-            <Flex direction="column" alignItems="center" justifyContent="center" h="full" w="full">
-              <Image mb={12} src={propertyCard.imageUrl} alt={propertyCard.imageAlt} width={120} height={120}/>
-              <Flex gap={2} direction="column" alignItems="center">
-                <Text>{propertyCard.name}</Text>
-                <Text>{propertyCard.number}</Text>
-              </Flex>
-            </Flex>
-          </Box>
-
-          <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' w={200} h={300}>
-            <Flex direction="column" alignItems="center" justifyContent="center" h="full" w="full">
-              <Image mb={12} src={propertyCard.imageUrl} alt={propertyCard.imageAlt} width={120} height={120}/>
-              <Flex gap={2} direction="column" alignItems="center">
-                <Text>{propertyCard.name}</Text>
-                <Text>{propertyCard.number}</Text>
-              </Flex>
-            </Flex>
-          </Box>
-
-          <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' w={200} h={300}>
-            <Flex direction="column" alignItems="center" justifyContent="center" h="full" w="full">
-              <Image mb={12} src={propertyCard.imageUrl} alt={propertyCard.imageAlt} width={120} height={120}/>
-              <Flex gap={2} direction="column" alignItems="center">
-                <Text>{propertyCard.name}</Text>
-                <Text>{propertyCard.number}</Text>
-              </Flex>
-            </Flex>
-          </Box>
-
-          <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' w={200} h={300}>
-            <Flex direction="column" alignItems="center" justifyContent="center" h="full" w="full">
-              <Image mb={12} src={propertyCard.imageUrl} alt={propertyCard.imageAlt} width={120} height={120}/>
-              <Flex gap={2} direction="column" alignItems="center">
-                <Text>{propertyCard.name}</Text>
-                <Text>{propertyCard.number}</Text>
-              </Flex>
-            </Flex>
-          </Box>
+          <CardPokemon {...propertyCard}/>
+          <CardPokemon {...propertyCard}/>
+          <CardPokemon {...propertyCard}/>
+          <CardPokemon {...propertyCard}/>
         </Flex>
       </Flex>
     </Layout>
