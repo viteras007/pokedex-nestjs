@@ -20,8 +20,10 @@ import Stats from './Stats';
 import TypeTag from './TypeTag';
 
 import { firstLetterUppercase } from '../utils/utils';
+import { useTranslation } from 'react-i18next';
 
 function CardPokemon({ url }) {
+  const { t, i18n } = useTranslation();
   const [pokemonDetails, setPokemonDetails] = useState({});
   const pokemonImg =
     pokemonDetails?.sprites?.other['official-artwork']?.front_default;
@@ -143,20 +145,20 @@ function CardPokemon({ url }) {
                 </Flex>
                 <Flex gap={10} mt={4}>
                   <Box>
-                    <Text fontWeight="bold">Altura</Text>
-                    <Text>{pokemonDetails.height} pés</Text>
+                    <Text fontWeight="bold">{t('pokemon.height')}</Text>
+                    <Text>{pokemonDetails.height} m</Text>
                   </Box>
                   <Box>
-                    <Text fontWeight="bold">Peso</Text>
-                    <Text>{pokemonDetails.weight} oz</Text>
+                    <Text fontWeight="bold">{t('pokemon.weight')}</Text>
+                    <Text>{pokemonDetails.weight} kg</Text>
                   </Box>
                   <Box>
-                    <Text fontWeight="bold">Hab.</Text>
+                    <Text fontWeight="bold">{t('pokemon.skill')}</Text>
                     <Text>{abilityFirst}</Text>
                   </Box>
                 </Flex>
                 <Flex mt={4} flexDirection="column">
-                  <Text fontWeight="bold">Status</Text>
+                  <Text fontWeight="bold">{t('pokemon.status')}</Text>
                   <Stats pokemon={pokemonDetails.stats} />
                 </Flex>
               </Box>

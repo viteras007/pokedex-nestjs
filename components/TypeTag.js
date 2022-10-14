@@ -14,7 +14,7 @@ function TypeTag({ type }) {
       borderRadius={4}
     >
       <Heading as="h5" size={'sm'}>
-        { t(`pokemon.type.${type}`) }
+        {t(`pokemon.type.${type}`)}
       </Heading>
     </Box>
   );

@@ -2,6 +2,7 @@ import { CloseIcon, SearchIcon } from '@chakra-ui/icons';
 import {
   Box,
   Flex,
+  Heading,
   Input,
   InputGroup,
   InputLeftElement,
@@ -9,12 +10,13 @@ import {
 } from '@chakra-ui/react';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 import CardPokemon from '../components/CardPokemon';
 import Layout from '../components/Layout';
+import NotFound from '../components/NotFound';
 import utils, { exists, isEmptyString } from '../utils/utils';
-import { useTranslation } from 'react-i18next';
 
 const maxPokemonsQtd = 1154;
 
@@ -54,6 +56,7 @@ export default function Home(props) {
       })
       .catch(function (error) {
         clearCompleteList();
+        setPokemonsFiltered([]);
       });
   }
 
@@ -117,38 +120,52 @@ export default function Home(props) {
           </InputGroup>
         </Box>
         <Box mx={6}>
-        {listToRender.length <= 1 ? (
-          <SimpleGrid columns={5} spacing={16} mt="100px">
-            {listToRender.length <= 0 ? (
-              <h1>Pokemon não encontrado</h1>
-            ) : (
-              listToRender.map((pokemon, index) => (
-                <CardPokemon key={pokemon.url} {...pokemon} />
-              ))
-            )}
-          </SimpleGrid>
-        ) : (
-          <InfiniteScroll
-            dataLength={listToRender.length}
-            next={getData}
-            hasMore={
-              listToRender.length === 1
-                ? false
-                : listToRender.length < maxPokemonsQtd
-            }
-            loader={<h4>Loading...</h4>}
-          >
-            <SimpleGrid columns={[1, 2 , null, 3, 4]} spacing={16} mt="100px">
+          {listToRender.length <= 0 && (
+            <Flex justifyContent="center" alignItems="center" mt={24}>
+              <NotFound />
+            </Flex>
+          )}
+          {listToRender.length <= 1 ? (
+            <SimpleGrid columns={5} spacing={16} mt="100px">
               {listToRender.length <= 0 ? (
-                <h1>Pokemon não encontrado</h1>
+                <></>
               ) : (
                 listToRender.map((pokemon, index) => (
                   <CardPokemon key={pokemon.url} {...pokemon} />
                 ))
               )}
             </SimpleGrid>
-          </InfiniteScroll>
-        )}
+          ) : (
+            <InfiniteScroll
+              dataLength={listToRender.length}
+              next={getData}
+              hasMore={
+                listToRender.length === 1
+                  ? false
+                  : listToRender.length < maxPokemonsQtd
+              }
+              loader={<h4>Loading...</h4>}
+            >
+              {/* <SimpleGrid columns={[1, 2 , null, 3, 4]} spacing={16} mt="100px"> */}
+              {listToRender.length <= 0 ? (
+                <Flex justifyContent="center" alignItems="center">
+                  <Heading> aas</Heading>
+                  <NotFound />
+                </Flex>
+              ) : (
+                <SimpleGrid
+                  columns={[1, 2, null, 3, 4]}
+                  spacing={16}
+                  mt="100px"
+                >
+                  {listToRender.map((pokemon, index) => (
+                    <CardPokemon key={pokemon.url} {...pokemon} />
+                  ))}
+                </SimpleGrid>
+              )}
+              {/* </SimpleGrid> */}
+            </InfiniteScroll>
+          )}
         </Box>
       </Flex>
     </Layout>

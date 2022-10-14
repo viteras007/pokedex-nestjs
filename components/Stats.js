@@ -1,13 +1,15 @@
 import { Box, Flex, Progress, Text, Tooltip } from '@chakra-ui/react';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 function Stats({ pokemon }) {
+  const { t, i18n } = useTranslation();
   return (
     <Flex flexDirection="column" w="full" gap={2}>
       {pokemon.map((stats) => (
-        <Tooltip label={stats.stat.name}>
+        <Tooltip label={t(`pokemon.status.${stats.stat.name}`)}>
           <Box>
-            <Text>{stats.stat.name}</Text>
+            <Text>{t(`pokemon.status.${stats.stat.name}`)}</Text>
             <Progress
               value={stats.base_stat}
               colorScheme="yellow"

@@ -5,15 +5,26 @@ import {
   Link,
   useColorMode,
   useColorModeValue,
+  Box,
+  Image,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
+import { useTranslation, withTranslation, Trans } from 'react-i18next';
 
 function Topbar() {
+  const { t, i18n } = useTranslation();
   const { colorMode, toggleColorMode } = useColorMode();
   const bg = useColorModeValue('#FFFFFF', '#1A202C');
   const titleColor = useColorModeValue('#000', '#fbc418');
   const color = useColorModeValue('#1A202C', '#EDEEEE');
   const borderColor = useColorModeValue('#DDD', '#3b3b3f');
+
+  const usaFlag = 'https://cdn.statically.io/flags/us.png';
+  const ptFlag = 'https://cdn.statically.io/flags/br.png';
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+  };
 
   return (
     <Flex
@@ -50,12 +61,44 @@ function Topbar() {
             </Link>
           </NextLink>
         </Flex>
-        <Flex justifyContent="center" alignItems="center">
-          {colorMode === 'light' ? (
-            <MoonIcon w={6} h={6} onClick={toggleColorMode} />
-          ) : (
-            <SunIcon w={6} h={6} onClick={toggleColorMode} />
-          )}
+        <Flex justifyContent="center" alignItems="center" gap={6}>
+          <Box>
+            {colorMode === 'light' ? (
+              <MoonIcon
+                cursor={'pointer'}
+                w={6}
+                h={6}
+                onClick={toggleColorMode}
+              />
+            ) : (
+              <SunIcon
+                cursor={'pointer'}
+                w={6}
+                h={6}
+                onClick={toggleColorMode}
+              />
+            )}
+          </Box>
+          <Box display="flex" gap={2}>
+            <Image
+              borderRadius="10px"
+              src={usaFlag}
+              width={8}
+              height={6}
+              alt="US"
+              cursor={'pointer'}
+              onClick={() => changeLanguage('en')}
+            />
+            <Image
+              borderRadius="10px"
+              src={ptFlag}
+              width={8}
+              height={6}
+              alt="PT"
+              cursor={'pointer'}
+              onClick={() => changeLanguage('pt')}
+            />
+          </Box>
         </Flex>
       </Flex>
     </Flex>
