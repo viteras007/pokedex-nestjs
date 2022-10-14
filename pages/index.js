@@ -1,4 +1,4 @@
-import { Box, Flex, Input, Heading, Image, Text  } from '@chakra-ui/react'
+import { Box, Flex, Input, SimpleGrid, Progress, Text  } from '@chakra-ui/react'
 import Layout from '../components/Layout';
 import CardPokemon from '../components/CardPokemon';
 
@@ -15,12 +15,19 @@ export default function Home() {
         <Box>
           <Input placeholder='Buscar...' size='lg' />
         </Box>
-        <Flex mt="100px" gap={16}>
+
+        <SimpleGrid columns={4} spacing={16} mt="100px">
           <CardPokemon {...propertyCard}/>
           <CardPokemon {...propertyCard}/>
           <CardPokemon {...propertyCard}/>
           <CardPokemon {...propertyCard}/>
-        </Flex>
+          <CardPokemon {...propertyCard}/>
+          <CardPokemon {...propertyCard}/>
+          <CardPokemon {...propertyCard}/>
+          <CardPokemon {...propertyCard}/>
+          <CardPokemon {...propertyCard}/>
+          <CardPokemon {...propertyCard}/>
+        </SimpleGrid>
       </Flex>
     </Layout>
   )

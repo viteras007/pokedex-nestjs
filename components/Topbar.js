@@ -15,11 +15,12 @@ import {
 } from '@chakra-ui/react';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 
-function Topbar({ openAuthModal }) {
+function Topbar() {
   const { colorMode, toggleColorMode } = useColorMode();
   const bg = useColorModeValue('#FFFFFF', '#1A202C');
+  const titleColor = useColorModeValue('#000', '#fbc418');
   const color = useColorModeValue('#1A202C', '#EDEEEE');
-  const borderColor = useColorModeValue('#DDD', '#27272A');
+  const borderColor = useColorModeValue('#DDD', '#3b3b3f');
 
   return (
     <Flex
@@ -45,7 +46,7 @@ function Topbar({ openAuthModal }) {
         <Flex alignItems="center">
           <NextLink href="/" passHref>
             <Link>
-              <Heading size="md" mr={4} display={['none', 'block']}>
+              <Heading size="md" mr={4} display={['none', 'block']} color={titleColor}>
                 Pokédex
               </Heading>
             </Link>
