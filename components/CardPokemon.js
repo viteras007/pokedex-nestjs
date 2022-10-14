@@ -24,6 +24,8 @@ import TypeTag from './TypeTag';
 import { firstLetterUppercase } from '../utils/utils';
 import { useTranslation } from 'react-i18next';
 
+import { motion } from 'framer-motion';
+
 function CardPokemon({ url }) {
   const { t, i18n } = useTranslation();
   const [pokemonDetails, setPokemonDetails] = useState({});
@@ -78,17 +80,23 @@ function CardPokemon({ url }) {
             w={160}
             bgColor={Colors[pokemonFirstType].bg}
             borderRadius="100%"
-            opacity={1}
+            opacity={0.8}
             alignItems="center"
             justifyContent="center"
           >
-            <Image
-              src={pokemonImg}
-              alt={pokemonImgAlt}
-              width={120}
-              height={120}
-              borderRadius="100%"
-            />
+            <Box
+              as={motion.div}
+              whileHover={{ scale: 1.7, opacity: 2 }}
+              transition="0.5s linear"
+            >
+              <Image
+                src={pokemonImg}
+                alt={pokemonImgAlt}
+                width={120}
+                height={120}
+                borderRadius="100%"
+              />
+            </Box>
           </Flex>
           <Flex mt={6} gap={2} direction="column" alignItems="center">
             <Heading as="h4" fontWeight="bold" size="md">
@@ -150,6 +158,7 @@ function CardPokemon({ url }) {
                     alt={pokemonImgAlt}
                     width={120}
                     height={120}
+                    transform='scale(1.9)'
                   />
                 </Flex>
               </Hide>
