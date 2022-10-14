@@ -13,6 +13,15 @@ const GlobalStyle = ({ children }) => (
   <>
     <Head>
       <meta content="width=device-width, initial-scale=1" name="viewport" />
+      <title>Pokedéx</title>
+      <meta name="description" content="Pokedex App, find your pokemon!" />
+      <meta property="og:title" content="Pokédex" />
+      <meta
+        property="og:description"
+        content="Pokedex App, find your pokemon!"
+      />
+      <meta property="og:type" content="website" />
+      <link rel="icon" href="/favicon.ico" />
     </Head>
     <CSSReset />
     <Global

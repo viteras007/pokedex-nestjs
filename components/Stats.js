@@ -7,7 +7,7 @@ function Stats({ pokemon }) {
   return (
     <Flex flexDirection="column" w="full" gap={2}>
       {pokemon.map((stats) => (
-        <Tooltip label={t(`pokemon.status.${stats.stat.name}`)}>
+        <Tooltip key={stats.stat.name} label={t(`pokemon.status.${stats.stat.name}`)}>
           <Box>
             <Text>{t(`pokemon.status.${stats.stat.name}`)}</Text>
             <Progress

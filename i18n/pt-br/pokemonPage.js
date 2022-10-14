@@ -1,5 +1,5 @@
 export default {
-  inputSearch: 'Pesquisar...',
+  "inputSearch": 'Pesquisar...',
 
   // Pokemon Types
   'pokemon.type.normal': 'Normal',

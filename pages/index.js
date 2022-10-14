@@ -1,4 +1,5 @@
 import { CloseIcon, SearchIcon } from '@chakra-ui/icons';
+import Head from 'next/head';
 import {
   Box,
   Flex,
@@ -26,7 +27,7 @@ export default function Home(props) {
   const [pokemonsFiltered, setPokemonsFiltered] = useState([]);
   const listToRender =
     pokemonsFiltered.length > 0 ? pokemonsFiltered : pokemons;
-  const [filters, setFilters] = useState();
+  const [filters, setFilters] = useState('');
   const [offset, setOffset] = useState(0);
   const offsetLimit = 20;
 
@@ -44,7 +45,7 @@ export default function Home(props) {
     axios
       .get(`https://pokeapi.co/api/v2/pokemon/${filters}`)
       .then(function (response) {
-        if (response.data !== undefined) {
+        if (exists(filters) && !isEmptyString(filters)) {
           setPokemonsFiltered([
             {
               name: response?.data.name,
@@ -80,12 +81,12 @@ export default function Home(props) {
     getData();
   }, []);
 
-  useEffect(() => {
-    console.log('POKEMONS', pokemons);
-  }, [pokemons]);
-
   return (
     <Layout>
+      <Head>
+        <title>Pokédex</title>
+        <meta property="og:title" content={`Pokédex`} key="title" />
+      </Head>
       <Flex
         flexDirection="column"
         justifyContent="center"
@@ -105,7 +106,7 @@ export default function Home(props) {
             />
             <Input
               placeholder={t('inputSearch')}
-              onChange={(event) => setFilters(event?.target?.value)}
+              onChange={(event) => setFilters(event.target.value)}
               value={filters}
               onKeyPress={(e) => {
                 if (e.key === 'Enter') {
@@ -146,7 +147,6 @@ export default function Home(props) {
               }
               loader={<h4>Loading...</h4>}
             >
-              {/* <SimpleGrid columns={[1, 2 , null, 3, 4]} spacing={16} mt="100px"> */}
               {listToRender.length <= 0 ? (
                 <Flex justifyContent="center" alignItems="center">
                   <Heading> aas</Heading>
@@ -154,7 +154,7 @@ export default function Home(props) {
                 </Flex>
               ) : (
                 <SimpleGrid
-                  columns={[1, 2, null, 3, 4]}
+                  columns={[1, 2, 2, 3, 4]}
                   spacing={16}
                   mt="100px"
                 >
@@ -163,7 +163,6 @@ export default function Home(props) {
                   ))}
                 </SimpleGrid>
               )}
-              {/* </SimpleGrid> */}
             </InfiniteScroll>
           )}
         </Box>

@@ -14,6 +14,7 @@ import {
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Head from 'next/head';
 
 import { Colors } from '../styles/typeColors';
 import Stats from './Stats';
@@ -98,6 +99,10 @@ function CardPokemon({ url }) {
       </Box>
       {/* MODAL COM DADOS */}
       <Modal isCentered isOpen={isOpen} onClose={onClose} size={'3xl'}>
+        <Head>
+          <title>Pokédex - {firstLetterUppercase(pokemonDetails.name)}</title>
+          <meta property="og:title" content={`Pokédex - ${firstLetterUppercase(pokemonDetails.name)}`} key="title" />
+        </Head>
         <ModalOverlay />
         <ModalContent size={'xl'}>
           <ModalHeader
@@ -140,7 +145,7 @@ function CardPokemon({ url }) {
                 <Flex ml={-2}>
                   {pokemonDetails.types &&
                     pokemonDetails.types.map((types) => (
-                      <TypeTag type={types.type.name} />
+                      <TypeTag key={types.type.name} type={types.type.name} />
                     ))}
                 </Flex>
                 <Flex gap={10} mt={4}>
