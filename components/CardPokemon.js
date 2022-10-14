@@ -9,16 +9,48 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  Progress,
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
-function CardPokemon({ name, imageUrl, imageAlt, number }) {
+import { Colors } from '../styles/typeColors';
+import Stats from './Stats';
+import TypeTag from './TypeTag';
+
+import { firstLetterUppercase } from '../utils/utils';
+
+function CardPokemon({ url }) {
+  const [pokemonDetails, setPokemonDetails] = useState({});
+  const pokemonImg =
+    pokemonDetails?.sprites?.other['official-artwork']?.front_default;
+  const pokemonImgAlt = `${pokemonDetails.name}-image`;
+  const pokemonFirstType = pokemonDetails.types
+    ? pokemonDetails.types[0].type.name
+    : 'normal';
+  const abilityFirst = pokemonDetails.abilities
+    ? pokemonDetails.abilities[0].ability.name
+    : 'none';
+  function getData() {
+    if (!url) return;
+    axios
+      .get(url)
+      .then(function (response) {
+        setPokemonDetails(response?.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .finally(function () {});
+  }
+  useEffect(() => {
+    getData();
+  }, []);
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
+      {/* CARD NA TELA */}
       <Box
         maxW="sm"
         overflow="hidden"
@@ -40,118 +72,92 @@ function CardPokemon({ name, imageUrl, imageAlt, number }) {
           <Flex
             h={160}
             w={160}
-            bgColor="#bdff73"
+            bgColor={Colors[pokemonFirstType].bg}
             borderRadius="100%"
             opacity={1}
             alignItems="center"
             justifyContent="center"
           >
             <Image
-              src={imageUrl}
-              alt={imageAlt}
+              src={pokemonImg}
+              alt={pokemonImgAlt}
               width={120}
               height={120}
               borderRadius="100%"
             />
           </Flex>
-          <Flex gap={2} direction="column" alignItems="center">
+          <Flex mt={6} gap={2} direction="column" alignItems="center">
             <Heading as="h4" fontWeight="bold" size="md">
-              {name}
+              {firstLetterUppercase(pokemonDetails.name)}
             </Heading>
-            <Text>{number}</Text>
+            <Text>{pokemonDetails.id}</Text>
           </Flex>
         </Flex>
       </Box>
+      {/* MODAL COM DADOS */}
       <Modal isCentered isOpen={isOpen} onClose={onClose} size={'3xl'}>
         <ModalOverlay />
         <ModalContent size={'xl'}>
-          <ModalHeader>
-            {name} #{number}
+          <ModalHeader
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            gap={4}
+          >
+            <Heading as="h4" fontWeight="bold" size="lg">
+              {firstLetterUppercase(pokemonDetails.name)}
+            </Heading>{' '}
+            <Text mt={2} size="lg">
+              #{pokemonDetails.id}
+            </Text>
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody mb={6}>
-            <Box display="flex" flexDirection="row" gap={20} alignItems="center" justifyContent="center">
-              <Flex alignItems="center" justifyContent="center" bgColor="#bdff73" borderRadius="100%" p={6}>
-              <Image
-                src={imageUrl}
-                alt={imageAlt}
-                width={120}
-                height={120}
-              />
+            <Box
+              display="flex"
+              flexDirection="row"
+              gap={20}
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Flex
+                alignItems="center"
+                justifyContent="center"
+                bgColor={Colors[pokemonFirstType].bg}
+                borderRadius="100%"
+                p={6}
+              >
+                <Image
+                  src={pokemonImg}
+                  alt={pokemonImgAlt}
+                  width={120}
+                  height={120}
+                />
               </Flex>
               <Box>
                 <Flex ml={-2}>
-                  <Box
-                    margin={2}
-                    padding={2}
-                    color="green"
-                    bgColor="#D3D3D3"
-                    borderRadius={4}
-                  >
-                    <Heading as="h5" size={'sm'}>
-                      Planta
-                    </Heading>
-                  </Box>
-                  <Box
-                    margin={2}
-                    padding={2}
-                    color="purple"
-                    bgColor="#D3D3D3"
-                    borderRadius={4}
-                  >
-                    <Heading as="h5" size={'sm'}>
-                      Tóxico
-                    </Heading>
-                  </Box>
+                  {pokemonDetails.types &&
+                    pokemonDetails.types.map((types) => (
+                      <TypeTag type={types.type.name} />
+                    ))}
                 </Flex>
                 <Flex gap={10} mt={4}>
                   <Box>
                     <Text fontWeight="bold">Altura</Text>
-                    <Text>0.7m</Text>
+                    <Text>{pokemonDetails.height} pés</Text>
                   </Box>
                   <Box>
                     <Text fontWeight="bold">Peso</Text>
-                    <Text>69kg</Text>
+                    <Text>{pokemonDetails.weight} oz</Text>
                   </Box>
                   <Box>
                     <Text fontWeight="bold">Hab.</Text>
-                    <Text>overgrow</Text>
+                    <Text>{abilityFirst}</Text>
                   </Box>
                 </Flex>
                 <Flex mt={4} flexDirection="column">
-                  <Text fontWeight="bold">Fraquezas</Text>
-                  <Flex >
-                    <Flex ml={-2} mb={-2}>
-                      <Box
-                        margin={2}
-                        padding={2}
-                        color="red"
-                        bgColor="#D3D3D3"
-                        borderRadius={4}
-                      >
-                        <Heading as="h5" size={'sm'}>
-                          Fogo
-                        </Heading>
-                      </Box>
-                    </Flex>
-                  </Flex>
-                </Flex>
-                <Flex mt={4} flexDirection="column">
                   <Text fontWeight="bold">Status</Text>
-                  <Flex flexDirection="column" w="full">
-                    <Box display="flex" flexDirection="row" >
-                      <Text>HP</Text>
-                      <Progress value={30} />
-                    </Box>
-                    <Box display="flex" gap={4} justifyContent="space-between">
-                      <Text>Ataque</Text>
-                      <Progress value={30} />
-                    </Box>
-                    <Box display="flex" gap={4} justifyContent="space-between">
-                      <Text>Defesa</Text>
-                      <Progress value={60} />
-                    </Box>
-                  </Flex>
+                  <Stats pokemon={pokemonDetails.stats} />
                 </Flex>
               </Box>
             </Box>

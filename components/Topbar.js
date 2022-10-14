@@ -1,19 +1,12 @@
-import NextLink from 'next/link';
+import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import {
   Flex,
+  Heading,
   Link,
-  Icon,
   useColorMode,
   useColorModeValue,
-  Button,
-  Avatar,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  Heading,
 } from '@chakra-ui/react';
-import { MoonIcon, SunIcon } from '@chakra-ui/icons';
+import NextLink from 'next/link';
 
 function Topbar() {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -46,7 +39,12 @@ function Topbar() {
         <Flex alignItems="center">
           <NextLink href="/" passHref>
             <Link>
-              <Heading size="md" mr={4} display={['none', 'block']} color={titleColor}>
+              <Heading
+                size="md"
+                mr={4}
+                display={['none', 'block']}
+                color={titleColor}
+              >
                 Pokédex
               </Heading>
             </Link>
