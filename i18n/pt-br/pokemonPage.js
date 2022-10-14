@@ -1,5 +1,7 @@
 export default {
   "inputSearch": 'Pesquisar...',
+  'pokemon.listed': 'Pokemons listados',
+  'pokemon.notFound': 'Desculpe, Pokemon não encontrado!',
 
   // Pokemon Types
   'pokemon.type.normal': 'Normal',
@@ -35,5 +37,4 @@ export default {
   'pokemon.status.special-defense': 'Defesa Especial',
   'pokemon.status.speed': 'Rapidez',
 
-  'pokemon.notFound': 'Desculpe, Pokemon não encontrado!',
 };

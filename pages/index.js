@@ -1,4 +1,5 @@
 import { CloseIcon, SearchIcon } from '@chakra-ui/icons';
+import { TbPokeball } from 'react-icons/tb';
 import Head from 'next/head';
 import {
   Box,
@@ -8,6 +9,8 @@ import {
   InputGroup,
   InputLeftElement,
   SimpleGrid,
+  Icon,
+  Text,
 } from '@chakra-ui/react';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
@@ -19,16 +22,16 @@ import Layout from '../components/Layout';
 import NotFound from '../components/NotFound';
 import utils, { exists, isEmptyString } from '../utils/utils';
 
-const maxPokemonsQtd = 1154;
 
-export default function Home(props) {
+export default function Home({ data }) {
+  const maxPokemonsQtd = data?.count ;
   const { t, i18n } = useTranslation();
-  const [pokemons, setPokemons] = useState([]);
+  const [pokemons, setPokemons] = useState([...data?.results]);
   const [pokemonsFiltered, setPokemonsFiltered] = useState([]);
   const listToRender =
     pokemonsFiltered.length > 0 ? pokemonsFiltered : pokemons;
   const [filters, setFilters] = useState('');
-  const [offset, setOffset] = useState(0);
+  const [offset, setOffset] = useState(20);
   const offsetLimit = 20;
 
   function clearCompleteList() {
@@ -77,9 +80,6 @@ export default function Home(props) {
         setOffset(0);
       });
   }
-  useEffect(() => {
-    getData();
-  }, []);
 
   return (
     <Layout>
@@ -93,7 +93,7 @@ export default function Home(props) {
         alignItems="center"
         py={20}
       >
-        <Box>
+        <Box display='flex' flexDirection='column' gap={6}>
           <InputGroup>
             <InputLeftElement
               children={
@@ -106,7 +106,7 @@ export default function Home(props) {
             />
             <Input
               placeholder={t('inputSearch')}
-              onChange={(event) => setFilters(event.target.value)}
+              onChange={(event) => setFilters((event.target.value).toLocaleLowerCase())}
               value={filters}
               onKeyPress={(e) => {
                 if (e.key === 'Enter') {
@@ -119,6 +119,10 @@ export default function Home(props) {
               }}
             />
           </InputGroup>
+          <Box display='flex' gap={4} justifyContent='center' alignItems='center' w='full'>
+            <Icon as={TbPokeball} w={10} h={10} color="red.300" />
+            <Text>{ listToRender.length } {t('pokemon.listed')}</Text>
+          </Box>
         </Box>
         <Box mx={6}>
           {listToRender.length <= 0 && (
@@ -149,15 +153,10 @@ export default function Home(props) {
             >
               {listToRender.length <= 0 ? (
                 <Flex justifyContent="center" alignItems="center">
-                  <Heading> aas</Heading>
                   <NotFound />
                 </Flex>
               ) : (
-                <SimpleGrid
-                  columns={[1, 2, 2, 3, 4]}
-                  spacing={16}
-                  mt="100px"
-                >
+                <SimpleGrid columns={[1, 2, 2, 3, 4]} spacing={16} mt="100px">
                   {listToRender.map((pokemon, index) => (
                     <CardPokemon key={pokemon.url} {...pokemon} />
                   ))}
@@ -169,4 +168,15 @@ export default function Home(props) {
       </Flex>
     </Layout>
   );
+}
+
+export async function getStaticProps() {
+  const responseData = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=20&offset=0`)
+  const data = await responseData.json();
+  console.log('RETORNOU DADOS', data);
+  return { 
+    props:{ 
+      data 
+    }
+  };
 }

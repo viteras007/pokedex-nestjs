@@ -10,6 +10,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Text,
+  Hide,
   useDisclosure,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
@@ -98,10 +99,19 @@ function CardPokemon({ url }) {
         </Flex>
       </Box>
       {/* MODAL COM DADOS */}
-      <Modal isCentered isOpen={isOpen} onClose={onClose} size={'3xl'}>
+      <Modal
+        isCentered
+        isOpen={isOpen}
+        onClose={onClose}
+        size={['sm', 'md', 'xl', '3xl']}
+      >
         <Head>
           <title>Pokédex - {firstLetterUppercase(pokemonDetails.name)}</title>
-          <meta property="og:title" content={`Pokédex - ${firstLetterUppercase(pokemonDetails.name)}`} key="title" />
+          <meta
+            property="og:title"
+            content={`Pokédex - ${firstLetterUppercase(pokemonDetails.name)}`}
+            key="title"
+          />
         </Head>
         <ModalOverlay />
         <ModalContent size={'xl'}>
@@ -127,20 +137,22 @@ function CardPokemon({ url }) {
               alignItems="center"
               justifyContent="center"
             >
-              <Flex
-                alignItems="center"
-                justifyContent="center"
-                bgColor={Colors[pokemonFirstType].bg}
-                borderRadius="100%"
-                p={6}
-              >
-                <Image
-                  src={pokemonImg}
-                  alt={pokemonImgAlt}
-                  width={120}
-                  height={120}
-                />
-              </Flex>
+              <Hide below="md">
+                <Flex
+                  alignItems="center"
+                  justifyContent="center"
+                  bgColor={Colors[pokemonFirstType].bg}
+                  borderRadius="100%"
+                  p={6}
+                >
+                  <Image
+                    src={pokemonImg}
+                    alt={pokemonImgAlt}
+                    width={120}
+                    height={120}
+                  />
+                </Flex>
+              </Hide>
               <Box>
                 <Flex ml={-2}>
                   {pokemonDetails.types &&
