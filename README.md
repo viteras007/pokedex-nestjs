@@ -25,6 +25,7 @@ Access [website](https://pokedex-pi-henna.vercel.app/)
 - Cross platform
 - SEO - 100% according Google Lighthouse
 - Search Field
+- Real API - [PokeApi](https://pokeapi.co/)
 
 
 
